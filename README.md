@@ -37,10 +37,12 @@ A production-quality full-stack lead management system with a public landing pag
    MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/leaddesk?retryWrites=true&w=majority
    PORT=5000
    JWT_SECRET=your_super_secret_key
-   ADMIN_EMAIL=admin@leaddesk.com
-   ADMIN_PASSWORD=admin123
    ```
-4. Start the server:
+4. Run the seed script to create the initial admin user:
+   ```bash
+   node seed.js
+   ```
+5. Start the server:
    ```bash
    npm run dev
    # or
@@ -79,4 +81,5 @@ A production-quality full-stack lead management system with a public landing pag
 - Create a new Web Service on Render.
 - Set the Root Directory to `backend`.
 - Use `npm install` as the Build Command and `node server.js` as the Start Command.
-- Add your environment variables (`MONGO_URI`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`).
+- Add your environment variables (`MONGO_URI`, `JWT_SECRET`).
+- You can run `node seed.js` in the Render shell to generate the first admin user, or hit the register API.
