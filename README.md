@@ -1,85 +1,102 @@
 # LeadDesk Mini
 
-A production-quality full-stack lead management system with a public landing page and an admin dashboard. Built for Digital Heroes Training Task.
+LeadDesk Mini is a full-stack lead management application that allows businesses to collect customer enquiries through a landing page and manage them through a secure admin dashboard.
 
-## Features
-
-- **Public Landing Page**: Modern SaaS design with a hero section, services, testimonials, and a lead capture form.
-- **Admin Dashboard**: Secure dashboard to view, search, filter, update, and delete leads.
-- **Authentication**: JWT-based secure authentication for the admin area.
-- **Charts and Analytics**: Visual representation of lead statuses.
-- **CSV Export**: Export lead data to a CSV file.
-- **Dark Mode**: Fully functional dark and light theme support.
+The application includes authentication, lead tracking, status management, and a responsive user interface.
 
 ## Tech Stack
 
-- **Frontend**: React, Vite, Tailwind CSS, React Router, Recharts, React Hot Toast, Axios
-- **Backend**: Node.js, Express.js, MongoDB Atlas, Mongoose, JWT, bcrypt
+- React.js
+- Tailwind CSS
+- Node.js
+- Express.js
+- MongoDB Atlas
+- JWT Authentication
+- bcrypt
 
-## Getting Started
+## Data Model
 
-### Prerequisites
-- Node.js (v16+)
-- MongoDB Atlas cluster (or local MongoDB server)
+### Lead
+
+Each customer enquiry is stored as a Lead.
+
+Fields:
+
+- `name` (String): The customer's full name.
+- `email` (String): The customer's email address.
+- `phone` (String): The customer's phone number.
+- `requirements` (Array of Strings): Checkbox selections (e.g., AI Chatbots, Web Development).
+- `budget` (String): The customer's estimated budget.
+- `message` (String): Detailed project enquiry text.
+- `status` (String): Current progress (New, Contacted, Closed).
+- `notes` (String): Private admin notes for internal tracking.
+- `createdAt` (Date): Timestamp of when the lead was generated.
+- `updatedAt` (Date): Timestamp of the last modification.
+
+### Admin
+
+Stores administrator credentials.
+
+Fields:
+
+- `name` (String): Admin's full name.
+- `email` (String): Admin's unique login email.
+- `password` (String): Securely hashed using bcrypt.
+- `createdAt` (Date): Timestamp of account creation.
+
+## Authentication
+
+- Admin credentials are stored securely in MongoDB.
+- Passwords are hashed using bcrypt before storage.
+- During login, the entered password is compared with the hashed password.
+- On successful login, the server generates a JWT token.
+- The frontend stores the JWT in `localStorage`.
+- Protected routes verify the JWT before allowing access to the dashboard.
+- Logout removes the token and redirects the user to the login page.
+- Security middlewares (Helmet, Rate Limiting, HPP) ensure the API is protected from brute-force and injection attacks.
+
+## API Endpoints
+
+### Auth
+- `POST /api/auth/register` - Create a new admin account
+- `POST /api/auth/login` - Authenticate admin and receive JWT
+- `GET /api/auth/me` - Fetch currently logged-in admin data
+- `PUT /api/auth/profile` - Update admin profile/password
+
+### Leads
+- `POST /api/leads` - Create a new lead from the landing page
+- `GET /api/leads` - Fetch all leads (Protected)
+- `PATCH /api/leads/:id` - Update lead status or notes (Protected)
+- `DELETE /api/leads/:id` - Delete a lead (Protected)
+
+## Installation
 
 ### 1. Backend Setup
-
-1. Navigate to the `backend` directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file (you can use `.env.example` as a template):
-   ```env
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/leaddesk?retryWrites=true&w=majority
-   PORT=5000
-   JWT_SECRET=your_super_secret_key
-   ```
-4. Run the seed script to create the initial admin user:
-   ```bash
-   node seed.js
-   ```
-5. Start the server:
-   ```bash
-   npm run dev
-   # or
-   node server.js
-   ```
+Navigate to the backend directory:
+```bash
+cd backend
+npm install
+```
+Create a `.env` file in the backend folder and add:
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+JWT_SECRET=your_super_secret_key
+```
+Start the server:
+```bash
+node server.js
+# or
+npm run dev
+```
 
 ### 2. Frontend Setup
-
-1. Navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file:
-   ```env
-   VITE_API_URL=http://localhost:5000/api
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-## Deployment
-
-### Frontend (Vercel)
-- Push the code to a Git repository.
-- Import the project into Vercel.
-- Set the Root Directory to `frontend`.
-- Add the `VITE_API_URL` environment variable pointing to your deployed backend.
-
-### Backend (Render)
-- Push the code to a Git repository.
-- Create a new Web Service on Render.
-- Set the Root Directory to `backend`.
-- Use `npm install` as the Build Command and `node server.js` as the Start Command.
-- Add your environment variables (`MONGO_URI`, `JWT_SECRET`).
-- You can run `node seed.js` in the Render shell to generate the first admin user, or hit the register API.
+Navigate to the frontend directory:
+```bash
+cd frontend
+npm install
+```
+Start the frontend:
+```bash
+npm run dev
+```
