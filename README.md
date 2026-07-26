@@ -1,5 +1,7 @@
 # LeadDesk Mini
 
+**Live Demo:** [https://leaddesk-app-rr4e.onrender.com](https://leaddesk-app-rr4e.onrender.com)
+
 LeadDesk Mini is a full-stack lead management application that allows businesses to collect customer enquiries through a landing page and manage them through a secure admin dashboard.
 
 The application includes authentication, lead tracking, status management, and a responsive user interface.
